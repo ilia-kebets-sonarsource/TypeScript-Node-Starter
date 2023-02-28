@@ -10,6 +10,7 @@ import mongoose from "mongoose";
 import passport from "passport";
 import bluebird from "bluebird";
 import { MONGODB_URI, SESSION_SECRET } from "./util/secrets";
+import { Request, Response } from "express";
 
 // Controllers (route handlers)
 import * as homeController from "./controllers/home";
@@ -100,6 +101,13 @@ app.post("/account/profile", passportConfig.isAuthenticated, userController.post
 app.post("/account/password", passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post("/account/delete", passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get("/account/unlink/:provider", passportConfig.isAuthenticated, userController.getOauthUnlink);
+app.get("/users/create", (req: Request, res: Response) => {
+    var body = req.body;
+
+    res.json({
+        user: body.user
+    });
+});
 
 /**
  * API examples routes.
